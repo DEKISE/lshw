@@ -1,0 +1,76 @@
+<?php
+/** @var \App\Model\User $user */
+/** @var \App\Model\Post $posts */
+$user = $this->user;
+$posts = $this->posts;
+?>
+
+<html>
+<head>
+    <title>Blog</title>
+</head>
+<body>
+
+<p>Вы вошли как <?=$user->getName();?></p>
+
+    <form action="/user/profile">
+        <input type="submit" value="Профиль">
+    </form>
+    <form action="/user/logout">
+        <input type="submit" value="Выйти">
+    </form>
+
+<p>Опубликовать ообщение</p>
+<form enctype="multipart/form-data" action="/post/send" method="post">
+    Текст: <textarea type="text" name="text"> </textarea><br>
+    Изображение <input name="user_file" type="file"> <br>
+    <input type="submit" value="Опубликовать">
+</form>
+
+<?php if($user->getId() == ADMIN) : ?>
+
+    <h1>Blog administration</h1>
+<p>Получение сообщений ползователя в JSON по ссылке:<br>
+    <a href="/post/json?user_id=1&posts=20">/post/json?user_id=1&posts=20</a></p>
+
+
+    <table border="1">
+        <tr>
+            <td>Id</td>
+            <td>Дата</td>
+            <td>Сообщение</td>
+            <td>Картинка</td>
+            <td>Автор</td>
+            <td>Действие</td>
+        </tr>
+        <?php foreach ($posts as $post): ?>
+            <tr>
+                <td><?=$post->getPostId();?></td>
+                <td><?=$post->getPostedAt();?></td>
+                <td><?=$post->getText();?></td>
+                <td>
+                    <?php if ($post->getImage()) :?>
+                        <img src="<?=$post->getImage();?>" width="150">
+                    <?php endif; ?>
+                </td>
+                <td><?=$post->getUserName();?></td>
+                <td>
+                    <form action="/post/delete" method="post">
+                        <input type="hidden" name="id" value="<?=$post->getPostId();?>">
+                        <input type="submit" value="Удалить">
+                    </form>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
+
+
+<?php else: ?>
+    Недостаточно прав для адимнистрирования
+<?php endif; ?>
+
+<?php if($this->error): ?>
+    <span style="color: red"><?=$this->error;?></span>
+<?php endif; ?>
+</body>
+</html>

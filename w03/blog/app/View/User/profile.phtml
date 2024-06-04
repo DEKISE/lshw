@@ -1,0 +1,20 @@
+<?php
+/** @var \App\Model\User $user */
+$user = $this->user;
+?>
+
+<?php if($user): ?>
+    name: <?= $user->getName();?> <br>
+    email: <?= $user->getEmail();?> <br>
+    registered: <?= $user->getCreatedAt()?>
+
+    <form action="/user/edit">
+        <input type="submit" value="Редактировать">
+    </form>
+    <form action="/post/index">
+        <input type="submit" value="Вернуться в блог">
+    </form>
+
+<?php else: ?>
+    Пользователь не найден
+<?php endif; ?>

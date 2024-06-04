@@ -1,0 +1,55 @@
+<?php
+/** @var \App\Model\User $user */
+/** @var \App\Model\Post $posts */
+$user = $this->user;
+$posts = $this->posts;
+?>
+
+<html>
+<head>
+    <title>Blog</title>
+</head>
+<body>
+<p>Вы вошли как <?=$user->getName();?></p>
+
+<form action="/user/profile">
+    <input type="submit" value="Профиль">
+</form>
+<form action="/user/logout">
+    <input type="submit" value="Выйти">
+</form>
+
+<p>Опубликовать ообщение</p>
+<form enctype="multipart/form-data" action="/post/send" method="post">
+    Текст: <textarea type="text" name="text"> </textarea><br>
+    Изображение <input name="user_file" type="file"> <br>
+    <input type="submit" value="Опубликовать">
+</form>
+
+<h1>Blog</h1>
+
+<table border="1">
+    <tr>
+        <td>Дата</td>
+        <td>Сообщение</td>
+        <td>Картинка</td>
+        <td>Автор</td>
+    </tr>
+    <?php foreach ($posts as $post): ?>
+        <tr>
+            <td><?=$post->getPostedAt();?></td>
+            <td><?=$post->getText();?></td>
+            <td>
+                <?php if ($post->getImage()) :?>
+                <img src="<?=$post->getImage();?>" width="150">
+                <?php endif; ?>
+            </td>
+            <td><?=$post->getUserName();?></td>
+        </tr>
+    <?php endforeach; ?>
+
+
+
+</table>
+</body>
+</html>
