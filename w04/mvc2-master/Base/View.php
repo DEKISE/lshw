@@ -69,7 +69,7 @@ class View
             case self::RENDER_TYPE_NATIVE:
                 $path = trim($this->_templatePath, DIRECTORY_SEPARATOR);
                 $tplFileName = $path . DIRECTORY_SEPARATOR . $tplName;
-                ob_start(null, null,  PHP_OUTPUT_HANDLER_STDFLAGS );
+                ob_start(null, 0,  PHP_OUTPUT_HANDLER_STDFLAGS );
                 require $tplFileName;
                 return ob_get_clean();
 
@@ -78,7 +78,7 @@ class View
             case self::RENDER_TYPE_TWIG:
                 $twig = $this->getTwig();
 
-                ob_start(null, null,  PHP_OUTPUT_HANDLER_STDFLAGS );
+                ob_start(null, 0,  PHP_OUTPUT_HANDLER_STDFLAGS );
                 try {
                     echo $twig->render($tplName, $this->_data + ['view' => $this]);
                 } catch (\Exception $e) {

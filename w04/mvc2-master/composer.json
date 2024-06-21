@@ -3,16 +3,16 @@
   "require": {
     "swiftmailer/swiftmailer": "dev-master",
     "phpmailer/phpmailer": "dev-master",
-    "twig/twig":"^2.9.0",
-    "symfony/dom-crawler":"dev-master",
-    "symfony/filesystem":"dev-master",
-    "symfony/css-selector":"dev-master",
-    "vlucas/phpdotenv":"dev-master",
+    "twig/twig":"3.10.3",
+    "symfony/dom-crawler":"^6.4",
+    "symfony/filesystem":"^6.4",
+    "symfony/css-selector":"^6.4",
+    "vlucas/phpdotenv":"^3.4.0",
 
-    "wixel/gump": "dev-master",
-    "intervention/image":"dev-master",
-    "phpunit/phpunit": "dev-master",
-    "illuminate/database": "^5.6",
+    "wixel/gump": "^2.1.0",
+    "intervention/image":"^3",
+    "phpunit/phpunit": "^10.5",
+    "illuminate/database": "^10.48.12",
     "fzaninotto/faker": "dev-master"
   },
 

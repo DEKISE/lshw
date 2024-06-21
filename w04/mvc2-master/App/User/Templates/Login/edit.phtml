@@ -1,0 +1,50 @@
+<html>
+<head>
+    <style>
+        .block, .block div { display: inline-block; vertical-align: top; text-align: left; }
+        .block input { width: 200px; }
+        .field { width: 200px; display: inline-block; margin-bottom: 5px }
+    </style>
+</head>
+<body>
+
+<h3><?=$this->title;?></h3>
+
+<?php
+/** @var App\User\Model\Base $user */
+$user = $this->user;
+?>
+
+<?php if($user):?>
+
+    <div class="block">
+        <form action="/user/edit/" method="post">
+            <div class="field">Id:</div><div><?=$user->getId();?></div><br>
+            <div class="field">Name:</div> <input type="text" value="<?=$user->getName();?>" name="name"><br>
+            <div class="field">Email:</div> <input type="text" value="<?=$user->getEmail();?>" name="email"><br>
+            <div class="field">Password:</div> <input type="text" value="" name="password"><br>
+            <div class="field">Confirm Password:</div> <input type="text" value="" name="password_2"><br>
+            <div class="field">PasswordHash:</div><div><?=$user->getPasswordHash();?></div><br>
+            <div class="field">CreatedAt:</div><div><?=$user->getCreatedAt();?></div><br>
+            <input type="submit" value="Сохранить">
+        </form>
+        <form method="post" action="/user/profile">
+            <input type="submit" value="Вернуться в профиль">
+        </form>
+        <form method="post" action="/">
+            <input type="submit" value="Сообщения">
+        </form>
+    </div>
+
+<?php else:?>
+
+    <p>Пользователь не найден</p>
+
+<?php endif;?>
+
+<?php if($this->error): ?>
+    <span style="color: red"><?=$this->error;?></span>
+<?php endif; ?>
+
+</body>
+</html>

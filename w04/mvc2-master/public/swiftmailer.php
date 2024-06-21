@@ -5,8 +5,8 @@ try {
 
 // Create the Transport
     $transport = (new Swift_SmtpTransport('smtp.mail.ru', 465, 'ssl'))
-        ->setUsername('loftschool.darazum@mail.ru')
-        ->setPassword('loftschool123')
+        ->setUsername('phpmaster@internet.ru')
+        ->setPassword('6wkKM5Br1AgqyDxmctWv')
     ;
 
 // Create the Mailer using your created Transport
@@ -14,8 +14,8 @@ try {
 
 // Create a message
     $message = (new Swift_Message('Wonderful Subject'))
-        ->setFrom(['loftschool.darazum@mail.ru' => 'loftschool.darazum@mail.ru'])
-        ->setTo(['darazum@mail.ru'])
+        ->setFrom(['phpmaster@internet.ru' => 'phpmaster@internet.ru'])
+        ->setTo(['phpmaster@internet.ru'])
         ->setBody('Here is the message itself')
         ->attach(Swift_Attachment::fromPath('test.php'))
     ;

@@ -1,0 +1,21 @@
+{% include 'header.twig' %}
+
+<h1>Шаблон twig</h1>
+
+aaa<br>
+{{ var }}<br>
+{{ var|escape }}<br>
+{{ var|e }}<br>
+
+Перебираю массив: <br>
+{% for user in users %}
+    * {{ user.name }}<br>
+{% else %}
+    No users have been found.
+{% endfor %}
+
+<br>
+Обращаюсь к объекту: {{ view.var }}
+
+{% include 'footer.twig' %}
+123

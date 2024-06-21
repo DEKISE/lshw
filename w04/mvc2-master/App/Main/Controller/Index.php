@@ -20,19 +20,28 @@ class Index extends \Base\ControllerAbstract
     /**
      * @throws Exception
      */
+    public function preAction()
+    {
+        parent::preAction();
+        if(!$this->USER) {
+            $this->redirect('/user/login/');
+        }
+    }
+
     public function indexAction()
     {
         $users = [];
-        $posts = ModelFactory::getList(ModelFactory::MODEL_POST, __METHOD__, 10, [], 'id ASC');
+        $posts = ModelFactory::getList(ModelFactory::MODEL_POST, __METHOD__, 5, [], 'id DESC');
         if ($posts) {
             $userIds = array_map(function(Post $post){ return $post->getUserId(); }, $posts);
             $users = ModelFactory::getByIds(ModelFactory::MODEL_USER, __METHOD__, $userIds);
         }
-
         $this->view->posts = $posts;
         $this->view->users = $users;
-
-        $this->tpl = 'index.phtml';
+        $this->view->user = $this->USER;
+        $this->view->title = 'Сообщения пользователей';
+        $this->view->setRenderType(2);
+        $this->tpl = 'index.twig';
 
     }
 
@@ -41,10 +50,17 @@ class Index extends \Base\ControllerAbstract
         $text = $this->p('text');
 
         $post = new Post();
+
         $post->initByData([
             'text' => $text,
-            'user_id' => $this->USER->getId(),
+            'user_id' => $this->USER->getId()
         ]);
+
+        if (is_uploaded_file($_FILES['image']['tmp_name'])) {
+            $post->loadFile($_FILES['image']['tmp_name']);
+        } else {
+           $post->setImage('');
+        }
 
         $post->saveToDb();
         $this->redirect('/');

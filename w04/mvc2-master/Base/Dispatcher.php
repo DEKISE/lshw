@@ -37,12 +37,20 @@ class Dispatcher
     private function _getRoutes()
     {
         return [
+            'admin' => [
+                'deletemessage' => 'Main.Admin.deleteMessage',
+                ],
             'main' => 'Main.Index.index',
             'fs' => 'Main.Index.fs',
             'carbon' => 'Main.Index.carbon',
             'parser' => 'Main.Index.parser',
             'user' => [
-                'login' => 'User.Login.main'
+                '' => 'User.Login.profile',
+                'createUser' => 'User.Login.createUser',
+                'login' => 'User.Login.login',
+                'profile' => 'User.Login.profile',
+                'logout' => 'User.Login.logout',
+                'edit' => 'User.Login.editUser'
             ],
             'ololo' => [
                 'atata' => 'Main.Index.index'

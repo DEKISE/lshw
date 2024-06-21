@@ -1,41 +1,100 @@
+<html>
+<head>
+    <style>
+        .post {
+            border: 1px solid grey;
+            margin-top: 10px;
+            padding: 5px;
+            width: 250px;
+        }
+        .user {
+            color: grey;
+            font-size: 11px;
+        }
+        .message {
+            margin-top: 5px;
+            padding-left: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h3><?=$this->title;?></h3>
+
 <?php
 /** @var \App\Main\Model\Post[] $posts */
 $posts = $this->posts;
 /** @var \App\User\Model\Base[] $users */
 $users = $this->users;
+/** @var \App\User\Model\Base $user */
+$user = $this->user;
 ?>
 
+<?php if($posts): ?>
 
-<? foreach ($posts as $post): ?>
-    <? $user = $users[$post->getUserId()] ?? false; ?>
-    <? if(!$user) { continue; } ?>
+<?php foreach ($posts as $post): ?>
+    <?php $author = $users[$post->getUserId()] ?? false; ?>
+    <?php if(!$author) { continue; } ?>
     <div class="post">
-        <span class="user">Сообщеие от <b><?=$user->getName();?></b> отправлено <?=$post->getCreatedAt();?></span>
-        <div class="message"><?=$post->getText();?></div>
+        <span class="user">Сообщение от <b><?=$author->getName();?></b> отправлено <?=$post->getCreatedAt();?></span>
+        <div class="message"><?=$post->getText();?>
+            <?php if($post->getImage()):?>
+                <div><img src="/images/<?=$post->getImage();?>" style="width: 150px;"></div>
+            <?php endif;?>
+            <?php if($user->isAdmin()): ?>
+                <div class="admin">
+                    <a href="/admin/deleteMessage/?id=<?=$post->getId();?>">delete</a>
+                </div>
+            <?php endif; ?>
+        </div>
     </div>
-<? endforeach;?>
+<?php endforeach;?>
+
+<?php else: ?>
+    Сообщений пока нет
+<?php endif; ?>
 
 <br>
 <br>
-<form action="/main/index/sendPost/" method="post">
-    Message:<br>
-    <textarea name="text" style="width: 250px; height: 100px;"></textarea><br>
-    <input type="submit" value="Send">
-</form>
 
-<style>
-    .post {
-        border: 1px solid grey;
-        margin-top: 10px;
-        padding: 5px;
-        width: 250px;
-    }
-    .user {
-        color: grey;
-        font-size: 11px;
-    }
-    .message {
-        margin-top: 5px;
-        padding-left: 5px;
-    }
-</style>
+    <form enctype="multipart/form-data" action="/main/index/sendPost/" method="post">
+        Message:<br>
+        <textarea name="text" style="width: 250px; height: 100px;"></textarea><br>
+        Изображение:<br>
+        <input type="file" name="image"><br>
+        <input type="submit" value="Send">
+    </form>
+
+    <form method="post" action="/user/profile">
+        <input type="submit" value="Профиль">
+    </form>
+
+    <form method="post" action="/user/logout">
+        <input type="submit" value="Выйти">
+    </form>
+
+<?php if($user->isAdmin()): ?>
+    <h3>Сообщения удаленных пользователей</h3>
+    <?php foreach ($posts as $post): ?>
+        <?php $author = $users[$post->getUserId()] ?? false; ?>
+        <?php if(!$author): ?>
+
+            <div class="post">
+                <span class="user">Сообщение от <b>Удаленного пользователя</b> отправлено <?=$post->getCreatedAt();?></span>
+                <div class="message"><?=$post->getText();?>
+                    <?php if($post->getImage()):?>
+                        <div><img src="/images/<?=$post->getImage();?>" style="width: 150px;"></div>
+                    <?php endif;?>
+                    <?php if($user->isAdmin()): ?>
+                        <div class="admin">
+                            <a href="/admin/deleteMessage/?id=<?=$post->getId();?>">delete</a>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        <?php endif; ?>
+    <?php endforeach;?>
+<?php endif; ?>
+
+</body>
+</html>

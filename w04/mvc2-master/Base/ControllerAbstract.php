@@ -1,5 +1,6 @@
 <?php
 namespace Base;
+use App\User\Model\Base;
 use App\User\Model\Base as UserModelBase;
 
 class ControllerAbstract

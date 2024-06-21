@@ -1,0 +1,43 @@
+<html>
+<head>
+    <style>
+        .block, .block div { display: inline-block; vertical-align: top; text-align: left; }
+        .block input { width: 200px; }
+        .field { width: 200px; display: inline-block; margin-bottom: 5px }
+    </style>
+</head>
+<body>
+<h3><?=$this->title;?></h3>
+
+<?php
+/** @var App\User\Model\Base $user */
+$user = $this->user;
+?>
+
+<?php if($user):?>
+    <div class="block">
+        <div class="field">Id: </div><div><?=$user->getId();?></div><br>
+        <div class="field">Name: </div><div><?=$user->getName();?></div><br>
+        <div class="field">Email: </div><div><?=$user->getEmail();?></div><br>
+        <div class="field">PasswordHash: </div><div><?=$user->getPasswordHash();?></div><br>
+        <div class="field">CreatedAt: </div><div><?=$user->getCreatedAt();?></div><br>
+
+        <form method="post" action="/user/edit">
+            <input type="submit" value="Редактировать профиль">
+        </form>
+        <form method="post" action="/user/logout">
+            <input type="submit" value="Выйти">
+        </form>
+        <form method="post" action="/">
+            <input type="submit" value="Сообщения">
+        </form>
+    </div>
+
+<?php else:?>
+
+    <p>Пользователь не найден</p>
+
+<?php endif;?>
+
+</body>
+</html>

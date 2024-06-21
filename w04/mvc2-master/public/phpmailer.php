@@ -15,17 +15,17 @@ try {
     $mail->isSMTP();                                      // Set mailer to use SMTP
     $mail->Host = 'smtp.mail.ru';  // Specify main and backup SMTP servers
     $mail->SMTPAuth = true;                               // Enable SMTP authentication
-    $mail->Username = 'loftschool.darazum@mail.ru';                 // SMTP username
-    $mail->Password = 'loftschool123';                           // SMTP password
+    $mail->Username = 'phpmaster@internet.ru';                 // SMTP username
+    $mail->Password = '6wkKM5Br1AgqyDxmctWv';                           // SMTP password
     $mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
     $mail->Port = 465;                                    // TCP port to connect to
 
     //Recipients
-    $mail->setFrom('loftschool.darazum@mail.ru', 'Mailer');
-    $mail->addAddress('darazum@mail.ru', 'Joe User');     // Add a recipient
-    $mail->addReplyTo('loftschool.darazum@mail.ru', 'Information');
-    $mail->addCC('cc@example.com');
-    $mail->addBCC('bcc@example.com');
+    $mail->setFrom('phpmaster@internet.ru', 'PHP master');
+    $mail->addAddress('dphpmaster@internet.ru', 'PHP master');     // Add a recipient
+    $mail->addReplyTo('lphpmaster@internet.ru', 'Information');
+    $mail->addCC('phpmaster@internet.ru');
+    $mail->addBCC('phpmaster@internet.ru');
 
     //Attachments
     //$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments

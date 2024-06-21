@@ -24,7 +24,8 @@ class Request
      */
     public function handle()
     {
-        $parts = explode('/', $this->_requestUri);
+        $parts = parse_url($this->_requestUri, PHP_URL_PATH);
+        $parts = explode('/', $parts);
         if (!$parts || sizeof($parts) < 1) {
             $this->_requestModule = false;
             $this->_requestController = false;

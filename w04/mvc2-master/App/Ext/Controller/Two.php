@@ -3,7 +3,9 @@ namespace App\Ext\Controller;
 
 use Base\Exception;
 use GUMP;
-use Intervention\Image\ImageManagerStatic as Image;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Typography\FontFactory;
 
 class Two extends \Base\ControllerAbstract
 {
@@ -36,7 +38,7 @@ class Two extends \Base\ControllerAbstract
             'gender'      =>  'f',
             'credit_card' =>  '52df3 2437 3988 8083',
             'url'         => '://vk.com',
-            'ip'          => '123.123.123.25225'
+            'ip'          => '123.123.123.2152'
         ];
 
         $validated = GUMP::is_valid($data, array(
@@ -61,41 +63,39 @@ class Two extends \Base\ControllerAbstract
      */
     public function imageAction()
     {
-        $source = self::$_imagePath . 'ava.jpg';
-        $result = self::$_imagePath . 'ava_new.jpg';
-        $image = Image::make($source)
-            ->resize(null, 500, function ($image) {
-                $image->aspectRatio();
-            })
-            //->rotate(45)
-            ->blur(1)
-            ->crop(200, 250)
-            //->invert()
-            //->fit(400, 100)
-            ->save($result, 80);
-
-        //$image->save($result, 80);
-        //echo 'success';
-
+        $source = self::$_imagePath . 'saturn.jpg';
+        $result = self::$_imagePath . 'saturn_new.jpg';
+        // create image manager with desired driver
+        $manager = new ImageManager(new Driver());
+        // read image from file system
+        $image = $manager->read($source);
+        // resize image proportionally to 200px width
+        $image->scale(width: 200);
+        // insert watermark
         self::watermark($image);
 
-        echo $image->response('png');
+        $image->save($result, 100);
+
+        echo "Image successfully saved!";
+        echo "<br><img src='/images/saturn_new.jpg'>";
     }
 
     /**
      * Наносит watermark
      */
-    public static function watermark(\Intervention\Image\Image $image)
+    public static function watermark($image)
     {
-        $image->text(
-            "Язык тролля\nТюсседал\nНорвегия",
-            5,
-            15,
-            function ($font) {
-                $font->file(self::$_imagePath . 'arial.ttf')->size('24'); //требуется расширение freetype
-                $font->color(array(255, 0, 0, 0.5));
-                $font->align('left');
-                $font->valign('top');
-            });
+        $image->text("mark", 70, 70,
+            function (FontFactory $font) {
+                $font->filename(self::$_imagePath . 'arial.ttf');
+                $font->size(50);
+                $font->color('fff');
+                $font->stroke('ff5500', 2);
+                $font->align('center');
+                $font->valign('middle');
+                $font->lineHeight(1.6);
+                $font->angle(10);
+                $font->wrap(250);
+        });
     }
 }
