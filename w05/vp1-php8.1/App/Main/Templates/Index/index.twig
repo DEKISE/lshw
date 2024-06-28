@@ -1,0 +1,72 @@
+{% include 'header.twig' %}
+
+<h3>{{ title }}</h3>
+
+{% if posts %}
+    {% for post in posts %}
+        {% if post.userdata.id %}
+            <div class="post">
+                <span class="user">Сообщение от <b>{{ post.userdata.name }}</b> отправлено {{ post.created_at }}</span>
+                <div class="message">{{ post.text }}
+                    {% if post.image %}
+                        <div><img src="/images/{{ post.image }}" style="width: 150px;"></div>
+                    {% endif %}
+                    {% if user.Admin %}
+                        <div class="admin">
+                            <a href="/admin/deleteMessage/?id={{ post.id }}">delete</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+
+{% else %}
+    <p>Сообщений пока нет</p>
+{% endif %}
+
+<br>
+<br>
+
+    <form enctype="multipart/form-data" action="/main/index/sendPost/" method="post">
+        Message:<br>
+        <textarea name="text" style="width: 250px; height: 100px;"></textarea><br>
+        Изображение:<br>
+        <input type="file" name="image"><br>
+        <input type="submit" value="Send">
+    </form>
+
+    <form method="post" action="/user/profile">
+        <input type="submit" value="Профиль">
+    </form>
+
+{% if user.Admin %}
+    <form method="post" action="/admin/">
+        <input type="submit" value="Админка">
+    </form>
+{% endif %}
+
+    <form method="post" action="/user/logout">
+        <input type="submit" value="Выйти">
+    </form>
+
+{% if user.admin %}
+    <h3>Сообщения удаленных пользователей</h3>
+    {% for post in posts %}
+        {% if not post.userdata.id %}
+            <div class="post">
+                <span class="user">Сообщение от <b>Удаленного пользователя</b> отправлено {{ post.created_at }}</span>
+                <div class="message">{{ post.text }}
+                    {% if post.image %}
+                        <div><img src="/images/{{ post.image }}" style="width: 150px;"></div>
+                    {% endif %}
+                    <div class="admin">
+                        <a href="/admin/deleteMessage/?id={{ post.id }}">delete</a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+{% include 'footer.twig' %}

@@ -1,0 +1,36 @@
+{% include 'header.twig' %}
+
+<h3>{{ title }}</h3>
+
+{% if user %}
+    <div class="block">
+        <div class="field">Id: </div><div>{{ user.id }}</div><br>
+        <div class="field">Name: </div><div>{{ user.name }}</div><br>
+        <div class="field">Email: </div><div>{{ user.email }}</div><br>
+        <div class="field">PasswordHash: </div><div>{{ user.password_hash }}</div><br>
+        <div class="field">CreatedAt: </div><div>{{ user.created_at }}</div><br>
+        <div class="field">UpdatedAt: </div><div>{{ user.updated_at }}</div><br>
+
+        <form method="post" action="/user/edit">
+            <input type="submit" value="Редактировать профиль">
+        </form>
+        <form method="post" action="/user/logout">
+            <input type="submit" value="Выйти">
+        </form>
+        <form method="post" action="/">
+            <input type="submit" value="Сообщения">
+        </form>
+
+        {% if user.Admin %}
+            <form method="post" action="/admin/">
+                <input type="submit" value="Админка">
+            </form>
+        {% endif %}
+
+    </div>
+
+{% else %}
+    <p>Пользователь не найден</p>
+{% endif %}
+
+{% include 'footer.twig' %}

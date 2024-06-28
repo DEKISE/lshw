@@ -1,0 +1,33 @@
+{% include 'header.twig' %}
+
+<h3>{{ title }}</h3>
+
+{% if not user %}
+    <div class="block">
+        <h3>Зарегистрироваться</h3>
+        <form action="/user/login/createUser/" method="post">
+            <div class="field">Name:</div> <input type="text" value="" name="name"><br>
+            <div class="field">Email:</div> <input type="text" value="" name="email"><br>
+            <div class="field">Password:</div> <input type="text" value="" name="password"><br>
+            <div class="field">Confirm Password:</div> <input type="text" value="" name="password_2"><br>
+            <input type="submit" value="Зарегистрироваться">
+        </form>
+    </div>
+    <div class="block" style="margin-left: 50px;">
+        <h3>Войти</h3>
+        <form action="/user/login/" method="post">
+            <div class="field">Email:</div> <input type="text" value="" name="email"><br>
+            <div class="field">Password:</div> <input type="text" value="" name="password"><br>
+            <input type="submit" value="Войти">
+        </form>
+
+    </div>
+{% else %}
+    <p>Вы вошли как {{ user.Name }}</p>
+{% endif %}
+
+{% if error %}
+    <span style="color: red">{{ error }}</span>
+{% endif %}
+
+{% include 'footer.twig' %}

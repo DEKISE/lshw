@@ -1,0 +1,63 @@
+{% include 'header.twig' %}
+
+<h3>{{ title }}</h3>
+
+{% if users %}
+    <table class="users">
+        <tr>
+            <td>Id</td>
+            <td>Name</td>
+            <td>Email</td>
+            <td>PasswordHash</td>
+            <td>CreatedAt</td>
+            <td>UpdatedAt</td>
+            <td>Редактировать</td>
+            <td>Удалить</td>
+        </tr>
+    {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.password_hash }}</td>
+            <td>{{ user.created_at }}</td>
+            <td>{{ user.updated_at }}</td>
+            <td><a href="/admin/edituser/?id={{ user.id }}">edit</a></td>
+            <td><a href="/admin/deleteuser/?id={{ user.id }}">delete</a></td>
+        </tr>
+    {% endfor %}
+    </table>
+{% else %}
+    <p>Пользователей пока нет</p>
+{% endif %}
+
+<br>
+<br>
+
+<div class="block">
+    <h3>Добавить пользователя</h3>
+    <form action="/admin/createUser/" method="post">
+        <div class="field">Name:</div> <input type="text" value="" name="name"><br>
+        <div class="field">Email:</div> <input type="text" value="" name="email"><br>
+        <div class="field">Password:</div> <input type="text" value="" name="password"><br>
+        <input type="submit" value="Добавить">
+    </form>
+</div>
+
+{% if error %}
+    <span style="color: red">{{ error }}</span>
+{% endif %}
+
+    <form method="post" action="/user/profile">
+        <input type="submit" value="Профиль">
+    </form>
+
+    <form method="post" action="/user/logout">
+        <input type="submit" value="Выйти">
+    </form>
+
+    <form method="post" action="/">
+        <input type="submit" value="Сообщения">
+    </form>
+
+{% include 'footer.twig' %}
